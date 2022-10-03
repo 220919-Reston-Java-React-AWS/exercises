@@ -8,5 +8,4 @@
     - [Setting up a Git repository remotely and then cloning a local repository on our computer](./git-remote-initialization.md)
 
 # Project-based
-* Implementing Registration/Login functionality
-    - [Step 1 (registration)](./registration-functionality.md)
+* [Implementing Registration functionality](./registration-functionality.md)
