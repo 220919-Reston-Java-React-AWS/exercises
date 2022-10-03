@@ -112,7 +112,7 @@ public class UserRepository {
 
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getPassword());
-            pstmt.setString(3, user.getRole());
+            pstmt.setString(3, "employee");
 
             // Execute the INSERT statement
             int numberOfRecordsAdded = pstmt.executeUpdate();
