@@ -158,52 +158,9 @@ TESTING IS ALWAYS IMPORTANT. The easiest way to make sure it is working is to si
 ```java
 public class UserRepository {
 
-    public User addUser(User user) throws SQLException {
-        try (Connection con = ConnectionFactory.createConnection()) {
-            String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(sql);
-
-            PreparedStatement pstmt = connectionObject.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getPassword());
-            pstmt.setString(3, "employee"); // Should default to employee!
-
-            // Execute the INSERT statement
-            int numberOfRecordsAdded = pstmt.executeUpdate();
-
-            // Retrieve the id that got automatically generated
-            ResultSet rs = pstmt.getGeneratedKeys();
-            rs.next();
-            int id = rs.getInt(1);
-
-            return new User(id, user.getUsername(), user.getPassword(), user.getRole());
-        }
-    }
-
-    public User getUserByUsername(String username) {
-        try (Connection connectionObj = ConnectionFactory.createConnection()) {
-            String sql = "SELECT * FROM users as u WHERE u.username = ?";
-            PreparedStatement pstmt = connectionObj.prepareStatement(sql);
-
-            pstmt.setString(1, username);
-
-            ResultSet rs = pstmt.executeQuery(); // ResultSet represents a temporary table that contains all data that we have
-            // queried for
-
-            if (rs.next()) { // returns a boolean indicating whether there is a record or not for the "next" row AND iterates to the next row
-                int id = rs.getInt("id");
-                String un = rs.getString("username");
-                String pw = rs.getString("password");
-                String role = rs.getInt("role");
-
-                return new User(id, un, pw, role);
-            } else {
-                return null;
-            }
-
-        }
-    }
+    // ALL OTHER CODE ....
+    // ....
+    // ....
 
     // Delete this method after making sure addUser works!
     public static void main(String[] args) throws SQLException {
@@ -245,6 +202,28 @@ public class AuthenticationService {
 }
 ```
 
+TESTING IS ALWAYS IMPORTANT. The easiest way to make sure it is working is to simply create a main that that will invoke the method you just made. Always, always write code, make sure it works before moving onto the next thing.
+
+```java
+public class AuthenticationService {
+    // ALL OTHER CODE ....
+    // ....
+    // ....
+
+    // DELETE ONCE YOU KNOW IT'S WORKING
+    public static void main(String[] args) {
+        AuthenticationService as = new AuthenticationService();
+
+        User user = new User(0, "testing123", "test", null);
+
+        User addedUser = as.register(user);
+
+        System.out.println(addedUser);
+    }
+}
+```
+NOTE: Try running the code above twice since we want to make sure register works, as well as whether it throws UsernameAlreadyExistsException twice for the second run (that's exactly what we want to happen).
+
 ### Login Endpoint (Controller)
 In the controller layer, we will map out an endpoint for supporting registration
 
@@ -279,5 +258,15 @@ public class AuthenticationController {
             }
         });
     }
+}
+```
+
+TESTING IS ALWAYS IMPORTANT. Open postman and then send a POST request for /users, filling in the JSON data for registering
+
+JSON:
+```json
+{
+    "username": "john_doe",
+    "password": "12345"
 }
 ```
